@@ -1,0 +1,32 @@
+.pnpm-store/
+# Dependencies
+**/node_modules/
+
+# Build output
+**/dist/
+**/build/
+**/.next/
+**/.expo/
+**/.turbo/
+
+# Logs
+**/*.log
+
+# Environment
+**/.env
+**/.env.*
+
+# Terraform
+**/.terraform/
+**/*.tfstate
+**/*.tfstate.*
+**/*.tfplan
+terraform/backend.hcl
+terraform/**/*.tfvars
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/

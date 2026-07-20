@@ -1,0 +1,10 @@
+project_name = "triple-t"
+environment  = "dev"
+aws_region   = "us-west-2"
+
+# domain_name            = "dev.example.com"
+# backend_image          = "123456789012.dkr.ecr.us-west-2.amazonaws.com/triple-t-backend:latest"
+# frontend_bucket_name   = "triple-t-dev-frontend"
+# extra_tags = {
+#   Owner = "your-name"
+# }

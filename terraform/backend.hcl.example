@@ -1,0 +1,5 @@
+bucket         = "triple-t-terraform-state"
+key            = "dev/terraform.tfstate"
+region         = "us-west-2"
+dynamodb_table = "triple-t-terraform-locks"
+encrypt        = true
