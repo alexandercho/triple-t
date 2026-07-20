@@ -1,9 +1,8 @@
-const { buildApp } = require('#src/app.js');
-const { getServerConfig, loadBackendEnv } = require('#src/config/env.js');
+import { buildApp } from '#src/app.js';
+import { getServerConfig, loadBackendEnv } from '#src/config/env.js';
+import { prisma } from '#src/db/prisma.js';
 
 loadBackendEnv();
-
-const { prisma } = require('#src/db/prisma.js');
 
 const app = buildApp();
 const { host, port } = getServerConfig();
@@ -12,7 +11,7 @@ const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map((value, index) => ({
   value,
 }));
 
-async function seedLetters() {
+async function seedLetters(): Promise<void> {
   const count = await prisma.letter.count();
   if (count > 0) return;
 
@@ -21,7 +20,7 @@ async function seedLetters() {
   });
 }
 
-async function start() {
+async function start(): Promise<void> {
   try {
     await seedLetters();
   } catch (error) {
@@ -36,4 +35,4 @@ async function start() {
   }
 }
 
-start();
+void start();

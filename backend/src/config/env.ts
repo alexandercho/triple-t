@@ -1,7 +1,10 @@
-const fs = require('node:fs');
-const path = require('node:path');
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-function loadEnvFile(filePath) {
+const currentDir = path.dirname(fileURLToPath(import.meta.url));
+
+function loadEnvFile(filePath: string): void {
   if (!fs.existsSync(filePath)) return;
 
   const contents = fs.readFileSync(filePath, 'utf8');
@@ -20,18 +23,13 @@ function loadEnvFile(filePath) {
   }
 }
 
-function loadBackendEnv() {
-  loadEnvFile(path.join(__dirname, '..', '..', '.env'));
+export function loadBackendEnv(): void {
+  loadEnvFile(path.join(currentDir, '..', '..', '.env'));
 }
 
-function getServerConfig() {
+export function getServerConfig(): { host: string; port: number } {
   return {
     host: process.env.HOST || '127.0.0.1',
     port: Number(process.env.PORT || 3000),
   };
 }
-
-module.exports = {
-  getServerConfig,
-  loadBackendEnv,
-};

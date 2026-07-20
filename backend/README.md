@@ -10,7 +10,7 @@ This backend uses a standard Fastify + tRPC layout.
 - `src/trpc/` - tRPC router definitions and context wiring.
 - `src/plugins/` - Fastify plugins and server-level integrations.
 - `prisma/` - Prisma schema and migration files.
-- `src/server.js` - process entrypoint that boots the HTTP server.
+- `src/server.ts` - process entrypoint that boots the HTTP server.
 
 ## Current behavior
 

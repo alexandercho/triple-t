@@ -1,25 +1,24 @@
-const Fastify = require('fastify');
-const { healthRoutes } = require('#src/routes/health.js');
+import Fastify, { type FastifyInstance } from 'fastify';
+import { prismaPlugin } from '#src/plugins/prisma.js';
+import { trpcPlugin } from '#src/plugins/trpc.js';
+import { healthRoutes } from '#src/routes/health.js';
 
-function buildApp() {
+export function buildApp(): FastifyInstance {
   const app = Fastify({ logger: true });
 
-  app.addHook('onSend', async (request, reply, payload) => {
+  app.addHook('onSend', async (_request, reply, payload) => {
     reply.header('Access-Control-Allow-Origin', '*');
     reply.header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
     reply.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
     return payload;
   });
 
-  app.options('*', async (request, reply) => {
+  app.options('*', async (_request, reply) => {
     reply.header('Access-Control-Allow-Origin', '*');
     reply.header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
     reply.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
     return reply.code(204).send();
   });
-
-  const { prismaPlugin } = require('#src/plugins/prisma.js');
-  const { trpcPlugin } = require('#src/plugins/trpc.js');
 
   app.register(prismaPlugin);
   app.register(healthRoutes);
@@ -27,7 +26,3 @@ function buildApp() {
 
   return app;
 }
-
-module.exports = {
-  buildApp,
-};
