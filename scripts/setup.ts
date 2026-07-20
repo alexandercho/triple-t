@@ -9,8 +9,8 @@ const root = path.resolve(__dirname, '..');
 const sourceName = 'triple-t';
 const projectNamePattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
-function run(command, args) {
-  return new Promise((resolve, reject) => {
+function run(command: string, args: string[]): Promise<void> {
+  return new Promise<void>((resolve, reject) => {
     const child = spawn(command, args, {
       cwd: root,
       stdio: 'inherit',
@@ -18,7 +18,7 @@ function run(command, args) {
     });
 
     child.on('error', reject);
-    child.on('exit', (code, signal) => {
+    child.on('exit', (code: number | null, signal: string | null) => {
       if (signal) {
         reject(new Error(`${command} ${args.join(' ')} exited with signal ${signal}`));
         return;
@@ -34,11 +34,11 @@ function run(command, args) {
   });
 }
 
-async function waitForPort(host, port, timeoutMs = 30_000) {
+async function waitForPort(host: string, port: number, timeoutMs = 30_000): Promise<void> {
   const startedAt = Date.now();
 
   while (Date.now() - startedAt < timeoutMs) {
-    const isReady = await new Promise((resolve) => {
+    const isReady = await new Promise<boolean>((resolve) => {
       const socket = net.createConnection({ host, port });
 
       socket.setTimeout(1_000);
@@ -62,7 +62,7 @@ async function waitForPort(host, port, timeoutMs = 30_000) {
   throw new Error(`Timed out waiting for ${host}:${port} to become ready`);
 }
 
-async function promptForProjectName() {
+async function promptForProjectName(): Promise<string> {
   const input = createInterface({
     input: process.stdin,
     output: process.stdout,
@@ -85,7 +85,7 @@ async function promptForProjectName() {
   }
 }
 
-async function collectFiles(dir, files = []) {
+async function collectFiles(dir: string, files: string[] = []): Promise<string[]> {
   const entries = await fs.readdir(dir, { withFileTypes: true });
 
   for (const entry of entries) {
@@ -106,7 +106,7 @@ async function collectFiles(dir, files = []) {
   return files;
 }
 
-async function replaceProjectName(projectName) {
+async function replaceProjectName(projectName: string): Promise<void> {
   if (projectName === sourceName) {
     console.log('Project name already matches the current repository name; skipping replacement.');
     return;
@@ -133,7 +133,7 @@ async function replaceProjectName(projectName) {
   );
 }
 
-async function setup() {
+async function setup(): Promise<void> {
   const projectName = await promptForProjectName();
   await replaceProjectName(projectName);
 

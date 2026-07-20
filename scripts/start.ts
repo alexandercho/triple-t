@@ -18,7 +18,7 @@ const children = [
 
 let shuttingDown = false;
 
-function shutdown(signal: any) {
+function shutdown(signal: string): void {
   if (shuttingDown) return;
   shuttingDown = true;
 
@@ -33,7 +33,7 @@ process.on('SIGINT', () => shutdown('SIGINT'));
 process.on('SIGTERM', () => shutdown('SIGTERM'));
 
 for (const child of children) {
-  child.on('exit', (code: any, signal: any) => {
+  child.on('exit', (code: number | null, signal: string | null) => {
     if (shuttingDown) return;
     if (signal || code !== 0) {
       shutdown(signal || 'SIGTERM');
