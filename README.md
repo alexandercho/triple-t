@@ -1,89 +1,179 @@
-# triple-t 🏏
+# triple-t 🏏🥁
 
-![triple-t logo](triple-t.png)
+---
 
-triple-t is a full-stack monorepo built around a Fastify API, a tRPC contract layer, an Expo frontend, Prisma-backed Postgres persistence, and Terraform scaffolding for cloud deployment. Think of it as a clean starter where the backend, frontend, and infrastructure all share the same source of truth.
+**Triple-T: TypeScript. tRPC. Terraform.**
 
-Project notes live in `docs/`.
+**This repo will always be Tung Tung Tung Sahere. 🥁**
+<p align="center">
+  <img src="triple-t.png" width="50%" />
+</p>
+---
 
-## Architecture 🏏
+**Triple-T** is a full-stack monorepo powered by the holy trinity of modern TypeScript development:
 
-The repo is organized around a simple flow:
+- **TypeScript** for end-to-end type safety
+- **tRPC** for a shared API contract
+- **Terraform** for infrastructure as code
 
-`Expo app` -> `tRPC client` -> `Fastify server` -> `tRPC router` -> `Prisma` -> `PostgreSQL`
 
-Here is the longer version:
+Triple-T is a clean starter template built around a **Fastify API**, a **tRPC contract layer**, an **Expo frontend**, **Prisma-backed PostgreSQL persistence**, and **Terraform cloud scaffolding**.
 
-1. The root workspace owns the orchestration scripts in `scripts/`.
-1. `pnpm setup` prepares the local environment, installs both app packages, starts Postgres in Docker, and runs Prisma generate and migrate.
-1. `pnpm start` launches the backend and frontend together for day-to-day development.
-1. The backend exposes HTTP routes and a typed tRPC API from `backend/`.
-1. The frontend consumes that API from `frontend/` through a shared tRPC + React Query client layer.
-1. Terraform code in `terraform/` describes the cloud-side shape of the project when you are ready to deploy it.
+Think of it as a small but mighty development squad where the frontend, backend, database, and infrastructure all speak the same language.
 
-### Request Flow
+Project notes and developer guidance live in `docs/`.
 
-The app is intentionally typed end to end:
+---
+
+# Architecture 🏏🥁
+
+Triple-T follows a simple request flow:
+
+```
+
+Expo app
+↓
+tRPC client
+↓
+Fastify server
+↓
+tRPC router
+↓
+Prisma
+↓
+PostgreSQL
+
+```
+
+The longer version:
+
+1. The root workspace acts as the command center, managing orchestration scripts inside `scripts/`.
+1. `pnpm setup` prepares the battlefield:
+   - installs app dependencies
+   - starts PostgreSQL through Docker
+   - generates Prisma clients
+   - runs database migrations
+1. `pnpm start` summons the full development stack:
+   - backend API
+   - frontend Expo app
+   - coordinated process management
+1. The backend lives in `backend/` and exposes HTTP routes plus a fully typed tRPC API.
+1. The frontend lives in `frontend/` and consumes the backend through a shared tRPC + React Query client layer.
+1. Terraform code in `terraform/` defines the infrastructure blueprint when Triple-T is ready to leave the local arena and enter the cloud.
+
+---
+
+## Request Flow 🥁
+
+Triple-T is designed to keep types flowing from database to UI.
+
+The journey of a request:
 
 1. A screen in the Expo app calls a generated tRPC hook.
-1. The frontend tRPC client sends the request to the backend URL from `EXPO_PUBLIC_API_URL`.
-1. Fastify receives the request and forwards it into the tRPC router.
-1. The router can read and write data through Prisma.
-1. Prisma talks to PostgreSQL, which is started locally by Docker during setup.
+1. The frontend tRPC client sends the request to the backend URL defined in `EXPO_PUBLIC_API_URL`.
+1. Fastify receives the request and hands it to the tRPC router.
+1. The router performs application logic and reads/writes data through Prisma.
+1. Prisma communicates with PostgreSQL, which runs locally through Docker during development.
 
-## Repo Layout 🏏
+One source of truth. No duplicated API types. No mysterious runtime surprises.
+
+---
+
+# Repo Layout 🏏
+
+```
+
+.
+├── backend/      # Fastify, tRPC, Prisma, database logic
+├── frontend/     # Expo Router app, UI, frontend tRPC client
+├── terraform/    # Infrastructure as code
+├── scripts/      # Root automation commands
+├── docs/         # Developer notes and project guidance
+└── triple-t.png  # The mighty Triple-T emblem
+
+````
+
+Detailed breakdown:
 
 - `scripts/` - root automation for setup and local development.
-- `backend/` - Fastify, tRPC, Prisma, and database code.
-- `frontend/` - Expo Router app, UI, and the frontend tRPC client.
+- `backend/` - Fastify server, tRPC routers, Prisma schema, and database code.
+- `frontend/` - Expo Router application, UI components, and tRPC client setup.
 - `terraform/` - infrastructure modules and environment examples.
-- `docs/` - short project notes for maintainers and agents.
-- `triple-t.png` - the project image used in this README.
+- `docs/` - project documentation for maintainers and agents.
+- `triple-t.png` - the official Triple-T battle banner.
 
-## Setup
+---
 
-Run setup from the repo root:
+# Setup 🥁
+
+First time entering the Triple-T arena?
+
+Run:
 
 ```bash
 pnpm setup
-```
+````
 
-That script will:
+The setup ritual will:
 
-1. Prompt for a new project name.
-1. Require the name to be kebab-case alphanumeric, using only lowercase letters, numbers, and hyphens.
-1. Replace every `triple-t` instance in the repo with the name you enter.
-1. Install dependencies for `backend/` and `frontend/`.
-1. Start the local Postgres container with Docker.
-1. Run Prisma generate and Prisma migrate for the backend.
+1. Ask you for a new project name.
+2. Validate that the name is kebab-case alphanumeric:
 
-If you are creating a fresh project from this template, `pnpm setup` is the first command to run.
+   * lowercase letters
+   * numbers
+   * hyphens only
+3. Replace all `triple-t` references throughout the repo.
+4. Install dependencies for:
 
-## Start
+   * `backend/`
+   * `frontend/`
+5. Start the local PostgreSQL container through Docker.
+6. Generate Prisma clients and run database migrations.
 
-Once setup is complete, start the app with:
+If you are creating a fresh project from this template, `pnpm setup` is your first command.
+
+---
+
+# Start 🚀
+
+Once setup is complete:
 
 ```bash
 pnpm start
 ```
 
-This launches both parts of the stack together:
+This launches the full Triple-T squad:
 
-1. The backend runs in development mode from `backend/`.
-1. The frontend starts the Expo app from `frontend/`.
-1. If either side exits with an error, the root process shuts the other one down too.
+1. The backend starts in development mode from `backend/`.
+2. The frontend launches through Expo from `frontend/`.
+3. If one side crashes, the root process shuts down the other side as well.
 
-## Current Scope
+No abandoned processes. No zombie servers.
 
-- Backend exposes a the letters of the alphabet with tRPC procedure and health routes.
-- Frontend reads backend data through the shared tRPC client layer.
-- Prisma handles schema generation and migrations for PostgreSQL.
-- Terraform scaffolding is present for future infrastructure work.
-- The root workspace scripts keep setup and startup behavior consistent across the repo.
+---
 
-## More Details
+# Current Scope 🏏
 
-- [`backend/README.md`](backend/README.md)
-- [`frontend/README.md`](frontend/README.md)
-- [`terraform/README.md`](terraform/README.md)
-- [`docs/README.md`](docs/README.md)
+Triple-T currently includes:
+
+* A Fastify backend with tRPC procedures and health routes.
+* An Expo frontend consuming backend data through the shared tRPC client.
+* Prisma schema management and migrations for PostgreSQL.
+* Docker-based local database setup.
+* Terraform scaffolding ready for future infrastructure expansion.
+* Root workspace scripts that keep development commands consistent.
+
+The foundation is built. The next upgrades are yours.
+
+---
+
+# More Details 📚
+
+For deeper dives:
+
+* [`backend/README.md`](backend/README.md)
+* [`frontend/README.md`](frontend/README.md)
+* [`terraform/README.md`](terraform/README.md)
+* [`docs/README.md`](docs/README.md)
+ 
+
