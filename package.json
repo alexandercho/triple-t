@@ -6,8 +6,7 @@
         "node": "26.x"
     },
     "scripts": {
-        "setup": "\"$npm_node_execpath\" scripts/setup.ts",
-        "install:all": "\"$npm_node_execpath\" scripts/setup.ts",
+        "setup": "\"$npm_node_execpath\" scripts/setup.ts", 
         "start": "\"$npm_node_execpath\" scripts/start.ts"
     }
 }
